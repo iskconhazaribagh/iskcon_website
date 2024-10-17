@@ -1,7 +1,8 @@
 
 import localFont from "next/font/local";
 import "./globals.css";
-import SplashScreenManager from "./components/SplashScreenManager";
+import SplashScreenManager from "../components/SplashScreenManager";
+import Navbar from "@/components/Navbar";
 
 
 const geistSans = localFont({
@@ -30,10 +31,11 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
       <SplashScreenManager>
-
+      <Navbar/>
       {children}
-
       </SplashScreenManager>
+      
+      
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+//import type { Config } from "tailwindcss";
+
+const config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,11 +8,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      backgroundImage: {
+        'splash': "url('/assets/splashbg.png')",
+          'banner':"url('/assets/banner.png')"
       },
+      colors: {
+        'orange-custom': '#ffefe6',
+      }
     },
   },
   plugins: [],
 };
+export default config;

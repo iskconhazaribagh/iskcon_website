@@ -26,8 +26,8 @@ const SplashScreen = ({ finishloading }) => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Image id="logo" src="/assets/Rocket.gif" width={100} height={100} alt="logo" unoptimized = {false} />
+    <div className="flex items-center justify-center w-full h-screen bg-splash bg-cover">
+      <Image id="logo" src="/assets/iskon.png" width={300} height={300} alt="logo" unoptimized = {false} className="animate-pulse"/>
     </div>
   );
 };
