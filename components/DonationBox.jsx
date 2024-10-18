@@ -15,7 +15,7 @@ function DonationBox({ image, amt, frq }) {
   };
 
   return (
-    <div className="flex flex-row items-center justify-between w-[80%] md:w-[40%]">
+    <div className="flex flex-row items-center justify-between w-[90%] md:w-[40%]">
       <div className='flex flex-row justify-start items-center gap-5'>
         <Image
           src={image}
