@@ -7,10 +7,13 @@ const config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
+    extend: {screens: {
+        'custom-lg': '1200px', // Custom screen size
+      },
       backgroundImage: {
         'splash': "url('/assets/splashbg.png')",
-          'banner':"url('/assets/banner.png')"
+          'banner':"url('/assets/banner.png')",
+          'krishna':"url('/assets/krishna.png')",
       },
       colors: {
         'orange-custom': '#ffefe6',

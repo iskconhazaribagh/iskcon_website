@@ -20,7 +20,7 @@ function Navbar() {
         <div className='flex items-center justify-start gap-10 mr-6'>
           <Link href="/"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Home</p></Link>
           <Link href="/donate"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Donate</p></Link>
-          <Link href="/gallery"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Gallery</p></Link>
+          <Link href="/event_gallery"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Gallery</p></Link>
         </div>
       </div>
 
@@ -47,7 +47,7 @@ function Navbar() {
             <Link href="/donate" onClick={() => setIsOpen(false)}>
               <p className='text-orange-600 font-semibold text-lg'>Donate</p>
             </Link>
-            <Link href="/gallery" onClick={() => setIsOpen(false)}>
+            <Link href="/event_gallery" onClick={() => setIsOpen(false)}>
               <p className='text-orange-600 font-semibold text-lg'>Gallery</p>
             </Link>
           </div>

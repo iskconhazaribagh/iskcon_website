@@ -18,7 +18,7 @@ function Footer() {
 
     <div className='flex flex-col gap-3'>
 
-    <div className='flex flex-row gap-5'>
+    <div className='flex flex-row gap-10'>
         <div className='flex flex-col gap-4'>
             <h1 className='font-semibold'>Quick Links</h1>
             <h1>Kriyas</h1>
@@ -47,7 +47,7 @@ function Footer() {
 
         {/*Following links */}
         <div className='flex flex-row gap-3'>
-        <span>Follow Us | </span>
+        <span>Follow Us {" "} </span>
         <div className='flex flex-row gap-4'>
         <FaTwitter className='text-2xl'/>
         <FaInstagram className='text-2xl'/>
