@@ -9,7 +9,7 @@ export default function Home() {
 
     <div className="flex flex-col items-center justify-center gap-3 md:gap-5">
     <div className="flex flex-row gap-3 mt-20 md:mt-4">
-    <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] lg:text-[126px] font-semibold font-hara">Experience</span>
+    <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] lg:text-[126px] font-medium font-hara">Experience</span>
     <div className="rounded-[85px] p-1 bg-orange-300 w-40 md:w-80 hidden md:block"></div>
     </div>
 

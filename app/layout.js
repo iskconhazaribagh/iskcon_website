@@ -18,10 +18,7 @@ const geistMono = localFont({
 
 
 const hara = localFont({
-  src: [{
-    path:"./fonts/Hara.ttf",
-    weight:"700",
-  }],
+  src:"./fonts/Hara.ttf",
   variable:"--font-hara"
 });
 
