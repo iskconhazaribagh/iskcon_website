@@ -2,12 +2,13 @@ import Image from "next/image";
 import AboutUs from "@/components/AboutUs";
 import People from "@/components/People";
 import Footer from "@/components/Footer";
+import { haRa } from "./layout";
 export default function Home() {
   return (
     <>
-  <div className="bg-orange-custom flex flex-col items-center justify-center">
+  <div className={`bg-orange-custom flex flex-col items-center justify-center `}>
 
-    <div className="flex flex-col items-center justify-center gap-3 md:gap-5">
+    <div className={`flex flex-col items-center justify-center gap-3 md:gap-5 ${haRa.className}`}>
     <div className="flex flex-row gap-3 mt-20 md:mt-4">
     <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] lg:text-[126px] font-medium font-hara">Experience</span>
     <div className="rounded-[85px] p-1 bg-orange-300 w-40 md:w-80 hidden md:block"></div>

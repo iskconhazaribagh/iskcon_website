@@ -6,12 +6,13 @@ import Navbar from "@/components/Navbar";
 import hara from "next/font/local"
 
 
-// const hara = localFont({
-//   src:"fonts/Hara.ttf",
-//   variable:"--font-haras"
-// });
+const geistSans = localFont({
+  src: "../public/fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
 
-const font = hara({ src: "../public/fonts/Hara.ttf" })
+export const haRa = hara({ src: "../public/fonts/Hara.ttf" })
 
 export const metadata = {
   title: "Iskon Hazaribagh",
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={` ${font.className} antialiased`}
+        className={`  antialiased`}
       >
       <SplashScreenManager>
       <Navbar/>
