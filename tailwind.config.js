@@ -11,7 +11,7 @@ const config = {
     {
       screens: {
         'custom-lg': '1200px', 
-        'custom-sm':'490px',
+        'custom-sm':'500px',
       },
       backgroundImage: {
         'splash': "url('/assets/splashbg.png')",

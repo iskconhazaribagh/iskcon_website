@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import Image from 'next/image';
 import Link from 'next/link';
-
+import { tinr } from '@/app/layout';
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +14,7 @@ function Navbar() {
       <div className='bg-orange-custom hidden md:flex md:flex-row justify-between p-5 items-center w-full'>
         <div className='flex flex-row gap-8 items-center justify-start'>
           <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={70} />
-          <h1 className='text-orange-600 font-semibold text-2xl'>ISKON HAZARIBAGH</h1>
+          <h1 className={`text-orange-600 font-semibold text-2xl ${tinr.className}`}>ISKCON HAZARIBAGH</h1>
         </div>
 
         <div className='flex items-center justify-start gap-10 mr-6'>
@@ -39,7 +39,7 @@ function Navbar() {
 
       {/* Overlay Menu */}
       {isOpen && (
-        <div className='fixed top-0 left-0 w-full h-80 bg-orange-custom bg-opacity-90 z-40 flex flex-col items-center justify-center'>
+        <div className='fixed top-0 left-0 w-full h-80 bg-orange-custom bg-opacity-90 z-40 flex flex-col md:hidden items-center justify-center'>
           <div className="flex flex-col gap-6 items-center">
             <Link href="/" onClick={() => setIsOpen(false)}>
               <p className='text-orange-600 font-semibold text-lg'>Home</p>
