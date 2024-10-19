@@ -7,7 +7,7 @@ import { FaRegEnvelope } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
-
+import Link from 'next/link'
 function Footer() {
   return (
     <div className='bg-[#E4C087] text-white flex flex-col gap-3 md:flex-row items-center justify-between p-8'>
@@ -24,6 +24,8 @@ function Footer() {
             <h1>Kriyas</h1>
             <h1>More Kriyas</h1>
             <h1>Blog</h1>
+            <Link href="/terms_condition"><h1>Terms and Conditions</h1></Link>
+            <Link href="/privacy_policy"><h1>Privacy Policy</h1></Link>
         </div>
         <div className='flex flex-col gap-4'>
         <h1 className='font-semibold'>Contact us</h1>
