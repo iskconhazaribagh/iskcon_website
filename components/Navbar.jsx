@@ -25,7 +25,7 @@ function Navbar() {
       </div>
 
       {/* Mobile */}
-      <div className=' top-0 left-0 w-full p-3 flex flex-row  md:hidden items-center justify-start bg-orange-custom z-50'>
+      <div className=' fixed top-0 left-0 w-full p-3 flex flex-row  md:hidden items-center justify-start bg-orange-custom z-50'>
         {isOpen ? (
           <ImCross onClick={() => setIsOpen(!isOpen)} className='text-xl text-orange-600 cursor-pointer' />
         ) : (

@@ -10,9 +10,9 @@ import { FaWhatsapp } from "react-icons/fa";
 import Link from 'next/link'
 function Footer() {
   return (
-    <div className='bg-[#E4C087] text-white flex flex-col gap-3 md:flex-row items-center justify-between p-8'>
+    <div className='bg-[#E4C087] text-white flex flex-col gap-3 md:flex-row items-center justify-between p-6 md:p-8'>
       <div className='flex flex-col gap-2 items-center justify-center w-[85%] md:w-[40%]'>
-      <Image src="/assets/iskon.png" alt="mandir" height={60} width={60}  />
+      <Image src="/assets/iskon.png" alt="mandir" height={100} width={100}  />
         <p className='text-sm text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
       </div>
 
@@ -24,7 +24,7 @@ function Footer() {
             <h1>Kriyas</h1>
             <h1>More Kriyas</h1>
             <h1>Blog</h1>
-            <Link href="/terms_condition"><h1>Terms and Conditions</h1></Link>
+            <Link href="/terms_conditions"><h1>Terms and Conditions</h1></Link>
             <Link href="/privacy_policy"><h1>Privacy Policy</h1></Link>
         </div>
         <div className='flex flex-col gap-4'>

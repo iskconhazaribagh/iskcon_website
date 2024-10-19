@@ -17,9 +17,12 @@ const geistMono = localFont({
 });
 
 
-const geistHara = localFont({
-  src: "./fonts/HARA.ttf",
-  variable: "--font-hara",
+const hara = localFont({
+  src: [{
+    path:"./fonts/Hara.ttf",
+    weight:"700",
+  }],
+  variable:"--font-hara"
 });
 
 
@@ -35,7 +38,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${geistHara.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${hara.variable} antialiased`}
       >
       <SplashScreenManager>
       <Navbar/>

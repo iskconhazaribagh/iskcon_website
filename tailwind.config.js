@@ -7,16 +7,22 @@ const config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {screens: {
-        'custom-lg': '1200px', // Custom screen size
+    extend:
+    {
+      screens: {
+        'custom-lg': '1200px', 
+        'custom-sm':'490px',
       },
       backgroundImage: {
         'splash': "url('/assets/splashbg.png')",
-          'banner':"url('/assets/banner.png')",
-          'krishna':"url('/assets/krishna.png')",
+        'banner': "url('/assets/banner.png')",
+        'krishna': "url('/assets/krishna.png')",
       },
       colors: {
         'orange-custom': '#ffefe6',
+      },
+      fontFamily:{
+        hara:['var(--font-hara)']
       }
     },
   },
