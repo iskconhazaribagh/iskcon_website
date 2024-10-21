@@ -5,7 +5,7 @@ import SplashScreenManager from "../components/SplashScreenManager";
 import Navbar from "@/components/Navbar";
 import hara from "next/font/local"
 import tnr from "next/font/local"
-
+import Footer from "@/components/Footer";
 // const geistSans = localFont({
 //   src: "../public/fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
       <SplashScreenManager>
       <Navbar/>
       {children}
+     
       </SplashScreenManager>
       
       

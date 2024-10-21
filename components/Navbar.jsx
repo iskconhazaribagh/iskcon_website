@@ -13,7 +13,7 @@ function Navbar() {
       {/* Desktop */}
       <div className='bg-orange-custom hidden md:flex md:flex-row justify-between p-5 items-center w-full'>
         <div className='flex flex-row gap-8 items-center justify-start'>
-          <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={70} />
+          <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={90} />
           <h1 className={`text-orange-600 font-semibold text-2xl ${tinr.className}`}>ISKCON HAZARIBAGH</h1>
         </div>
 
@@ -21,6 +21,7 @@ function Navbar() {
           <Link href="/"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Home</p></Link>
           <Link href="/donate"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Donate</p></Link>
           <Link href="/event_gallery"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Gallery</p></Link>
+          <Link href="/festivals"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Festivals & Yatras</p></Link>
         </div>
       </div>
 
@@ -49,6 +50,9 @@ function Navbar() {
             </Link>
             <Link href="/event_gallery" onClick={() => setIsOpen(false)}>
               <p className='text-orange-600 font-semibold text-lg'>Gallery</p>
+            </Link>
+            <Link href="/festivals" onClick={() => setIsOpen(false)}>
+              <p className='text-orange-600 font-semibold text-lg'>Festivals and Yatras</p>
             </Link>
           </div>
         </div>

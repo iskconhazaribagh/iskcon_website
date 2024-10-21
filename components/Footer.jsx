@@ -13,35 +13,29 @@ function Footer() {
     <div className='bg-[#E4C087] text-white flex flex-col gap-3 md:flex-row items-center justify-between p-6 md:p-8'>
       <div className='flex flex-col gap-2 items-center justify-center w-[85%] md:w-[40%]'>
       <Image src="/assets/iskon.png" alt="mandir" height={100} width={100}  />
-        <p className='text-sm text-center'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+        <p className='text-sm text-center'>
+        At ISKCON Hazaribagh, we follow the teachings of His Divine Grace A.C. Bhaktivedanta Swami Prabhupada, offering spiritual growth through Vedic wisdom, community programs, and festivals. Our vision is to promote sustainable living, harmony with nature, and a life of 'simple living, high thinking' for all.        </p>
       </div>
 
     <div className='flex flex-col gap-3'>
 
     <div className='flex flex-row gap-10'>
-        <div className='flex flex-col gap-4'>
-            <h1 className='font-semibold'>Quick Links</h1>
-            <h1>Kriyas</h1>
-            <h1>More Kriyas</h1>
-            <h1>Blog</h1>
-            <Link href="/terms_conditions"><h1>Terms and Conditions</h1></Link>
-            <Link href="/privacy_policy"><h1>Privacy Policy</h1></Link>
-        </div>
+        
         <div className='flex flex-col gap-4'>
         <h1 className='font-semibold'>Contact us</h1>
         <span className='flex flex-row gap-2 items-center'>
         <FaPhone className='border border-white rounded-md p-1 text-2xl'/>
-        <p>+91 1234567890</p>
+        <p>+91 82106 65015</p>
         </span>
 
         <span className='flex flex-row gap-2'>
         <FaRegEnvelope className='border border-white rounded-md p-1 text-2xl'/>
-        <p>contact@utsavapp.in</p>
+        <p>iskconhazaribagh1@gmail.com</p>
         </span>
 
         <span className='flex flex-row gap-2'>
         <SlLocationPin className='border border-white rounded-md p-1 text-2xl'/>
-        <p>India</p>
+        <p>PTC Kanhari Road, opposite Vrindavasadan Colony, Hazaribagh, Jharkhand.</p>
         </span>
         </div>
       </div>

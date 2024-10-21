@@ -32,10 +32,14 @@ function DonationBox({ image, amt, frq }) {
           <p className="text-sm font-normal">Frequency {frq}</p>
         </div>
       </div>
-      <FaCirclePlay 
-        className='text-orange-600 text-2xl mr-4 cursor-pointer' 
+      <button className='p-2  flex flexr-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'>
+        <p className='font-semibold text-sm'>Donate</p>
+        <FaCirclePlay 
+        className=' text-xl ' 
         onClick={handleModalOpen}  // Open modal on click
       />
+      </button>
+      
 
       {/* Render the DonationModal component */}
       <DonationModal 
