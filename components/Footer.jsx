@@ -21,6 +21,12 @@ function Footer() {
 
     <div className='flex flex-row gap-10'>
         
+      <div className='flex flex-col gap-4'>
+      <h1 className='font-semibold text-lg'>Quick Links</h1>
+      <Link href="/terms_conditions"><span>Terms and Conditions</span></Link>
+      <Link href="/privacy_policy"><span>Privacy Policy</span></Link>
+      </div>
+
         <div className='flex flex-col gap-4'>
         <h1 className='font-semibold text-lg'>Contact us</h1>
         <span className='flex flex-row gap-2 items-center'>

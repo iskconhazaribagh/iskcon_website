@@ -4,9 +4,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { tinr } from '@/app/layout';
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (path) => pathname === path;
 
   return (
     <>
@@ -18,15 +23,23 @@ function Navbar() {
         </div>
 
         <div className='flex items-center justify-start gap-10 mr-6'>
-          <Link href="/"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Home</p></Link>
-          <Link href="/donate"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Donate</p></Link>
-          <Link href="/event_gallery"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Gallery</p></Link>
-          <Link href="/festivals"><p className='text-gray-600 hover:text-orange-600 font-semibold'>Festivals & Yatras</p></Link>
+          <Link href="/">
+            <p className={`font-semibold ${isActive('/') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Home</p>
+          </Link>
+          <Link href="/donate">
+            <p className={`font-semibold ${isActive('/donate') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Donate</p>
+          </Link>
+          <Link href="/event_gallery">
+            <p className={`font-semibold ${isActive('/event_gallery') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Gallery</p>
+          </Link>
+          <Link href="/festivals">
+            <p className={`font-semibold ${isActive('/festivals') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Festivals & Yatras</p>
+          </Link>
         </div>
       </div>
 
       {/* Mobile */}
-      <div className=' fixed top-0 left-0 w-full p-3 flex flex-row  md:hidden items-center justify-start bg-orange-custom z-50'>
+      <div className='fixed top-0 left-0 w-full p-3 flex flex-row md:hidden items-center justify-start bg-orange-custom z-50'>
         {isOpen ? (
           <ImCross onClick={() => setIsOpen(!isOpen)} className='text-xl text-orange-600 cursor-pointer' />
         ) : (
@@ -34,7 +47,7 @@ function Navbar() {
         )}
 
         <div className='flex items-center justify-center w-full'>
-        <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={70} />
+          <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={70} />
         </div>
       </div>
 

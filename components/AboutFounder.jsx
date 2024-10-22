@@ -5,7 +5,7 @@ function AboutFounder() {
   return (
     <div className='bg-orange-custom flex flex-col gap-20 lg:flex-row-reverse items-center justify-center p-12 md:p-24'>
 
-      <Image src="/assets/founder.jpeg" alt="mandir" height={1000} width={500}  className='rounded-[40px] shadow-xl shadow-orange-200'/>
+      <Image src="/assets/founder.jpeg" alt="mandir" height={600} width={400}   className='rounded-[40px] shadow-xl shadow-orange-200'/>
 
       <div className={`w-[80%] lg:w-[45%] flex flex-col items-center justify-center gap-8 `}>
         <h1 className={`text-blue-600 font-semibold text-[40px] md:text-[56px] ${haRa.className}`}>About Founder</h1>

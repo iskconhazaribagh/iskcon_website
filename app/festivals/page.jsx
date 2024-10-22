@@ -4,7 +4,7 @@ import { haRa } from '@/app/layout';
 
 function Page() {
   return (
-    <div className='min-h-screen flex flex-col gap-10 items-start justify-start bg-orange-custom w-full p-12 md:p-28'>
+    <div className='min-h-screen flex flex-col gap-10 items-start justify-start bg-orange-custom w-full p-12 md:p-20'>
       {/* Festivals */}
       <div className='flex flex-col gap-4 w-full h-full mt-28 md:mt-0'>
         <h1 className={`text-blue-600 font-semibold text-[40px] md:text-[56px] ${haRa.className}`}>Festivals</h1>

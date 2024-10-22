@@ -62,7 +62,7 @@ export default function Home() {
 
         {/* Arrow and buttons */}
         <div className="relative z-10 flex flex-row gap-5 w-full md:w-[80%] items-center justify-center md:items-center md:justify-between">
-          <LuArrowDownCircle className="hidden md:block text-gray-500 text-3xl" onClick={handleScrollToAboutUs} />
+        <Image src="/assets/scrollbtn.png" height={200} width={200} className="hidden md:block" alt="btn" onClick={handleScrollToAboutUs}/>
           <div className="flex flex-col gap-3 mr-0 md:mr-12">
             <span className="flex flex-col">
               <p className="text-sm md:text-md custom-lg:text-lg font-medium text-gray-500 text-center lg:text-left">
