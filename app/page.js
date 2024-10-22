@@ -28,7 +28,7 @@ export default function Home() {
             src="/assets/bg_pattern.png" 
             height={750}
             width={750}
-            className="opacity-20" // Set low opacity
+            className="opacity-10" // Set low opacity
             alt="Background Pattern"
           />
         </div>

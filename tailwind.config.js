@@ -17,6 +17,9 @@ const config = {
         'splash': "url('/assets/splashbg.png')",
         'banner': "url('/assets/banner.png')",
         'krishna': "url('/assets/krishna.png')",
+        'purnima': "url('/assets/purina.png')",
+        'rath': "url('/assets/rath.png')",
+        'janmashtami': "url('/assets/janmashtami.png')",
       },
       colors: {
         'orange-custom': '#ffefe6',
