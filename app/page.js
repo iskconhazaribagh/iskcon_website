@@ -1,3 +1,5 @@
+"use client"
+import { useRef } from "react";
 import Image from "next/image";
 import AboutUs from "@/components/AboutUs";
 import People from "@/components/People";
@@ -7,8 +9,15 @@ import { haRa } from "./layout";
 import Link from "next/link";
 import { LuArrowDownCircle } from "react-icons/lu";
 
-
 export default function Home() {
+  const aboutUsRef = useRef(null); // Ref for AboutUs section
+
+  const handleScrollToAboutUs = () => {
+    if (aboutUsRef.current) {
+      aboutUsRef.current.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to AboutUs
+    }
+  };
+
   return (
     <>
       <div className="relative bg-orange-custom flex flex-col items-center justify-center">
@@ -17,23 +26,22 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full z-0 hidden lg:flex items-center justify-center">
           <Image 
             src="/assets/bg_pattern.png" 
-            
-           height={750}
-           width={750}
+            height={750}
+            width={750}
             className="opacity-20" // Set low opacity
             alt="Background Pattern"
           />
         </div>
-        <div className="absolute inset-0 w-full h-full z-0  flex lg:hidden items-center justify-center">
+        <div className="absolute inset-0 w-full h-full z-0 flex lg:hidden items-center justify-center">
           <Image 
             src="/assets/bg_pattern.png" 
-            
-           height={550}
-           width={550}
+            height={550}
+            width={550}
             className="opacity-20" // Set low opacity
             alt="Background Pattern"
           />
         </div>
+        
         {/* Text section */}
         <div className={`relative z-10 flex flex-col items-center justify-center gap-3 md:gap-5 ${haRa.className}`}>
           <div className="flex flex-row gap-3 mt-24 md:mt-4">
@@ -54,7 +62,7 @@ export default function Home() {
 
         {/* Arrow and buttons */}
         <div className="relative z-10 flex flex-row gap-5 w-full md:w-[80%] items-center justify-center md:items-center md:justify-between">
-          <LuArrowDownCircle className="hidden md:block text-gray-500 text-3xl" />
+          <LuArrowDownCircle className="hidden md:block text-gray-500 text-3xl" onClick={handleScrollToAboutUs} />
           <div className="flex flex-col gap-3 mr-0 md:mr-12">
             <span className="flex flex-col">
               <p className="text-sm md:text-md custom-lg:text-lg font-medium text-gray-500 text-center lg:text-left">
@@ -65,8 +73,14 @@ export default function Home() {
               </p>
             </span>
 
-            <div className="flex flex-row gap-4 items-center justify-center md:items-start md:justify-start mb-8">
-              <button className="rounded-md p-2.5 font-medium text-sm text-white bg-gray-800">Explore</button>
+            <div className="flex flex-row gap-4 items-center justify-center md:items-start md:justify-start pb-20">
+              <button
+                className="rounded-md p-2.5 font-medium text-sm text-white bg-gray-800"
+                type="button"
+                onClick={handleScrollToAboutUs} // Call the scroll function
+              >
+                Explore
+              </button>
 
               <Link href="/donate">
                 <button className="rounded-md p-2 font-medium text-sm text-orange-600 border-2 border-orange-600">
@@ -77,10 +91,14 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <AboutUs />
+
+      {/* AboutUs section with the ref */}
+      <div ref={aboutUsRef}>
+        <AboutUs />
+      </div>
       <AboutFounder />
       <People />
-      <Footer/>
+      <Footer />
     </>
   );
 }

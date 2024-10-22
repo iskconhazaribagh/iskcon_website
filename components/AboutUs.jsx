@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { haRa } from '@/app/layout'
 const AboutUs = () => {
   return (
-    <div className='bg-orange-custom flex flex-col gap-12 lg:flex-row items-center justify-center p-12 md:p-24' id="aboutus">
+    <div className='bg-orange-custom flex flex-col gap-12 lg:flex-row items-center justify-center p-12 md:p-24 ' id="aboutus">
 
       <Image src="/assets/aboutus.jpeg" alt="mandir" height={600} width={500} className='rounded-[40px] shadow-xl shadow-orange-200' />
 

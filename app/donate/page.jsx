@@ -4,10 +4,20 @@ import Image from 'next/image'
 
 function Page() {
   return (
-
+   
+    
     <div className='relative bg-orange-custom w-full flex flex-col items-center justify-center p-10 md:p-12'>
       
-      
+      {/* <div className="absolute -bottom-[30%] -right-[50%] w-full h-full z-0 hidden lg:flex items-start justify-start">
+          <Image 
+            src="/assets/bg_pattern.png" 
+            
+           height={750}
+           width={750}
+            className="opacity-20" // Set low opacity
+            alt="Background Pattern"
+          />
+        </div> */}
       {/* Banner */}
       <div className='relative z-10 bg-banner bg-cover h-48 w-[85%] md:w-[92%] rounded-xl text-white flex flex-col items-center justify-center gap-4 p-10 shadow-lg mt-12 md:m-0'>
         <h1 className='font-semibold text-xl md:text-3xl text-center'>Commit Monthly Donation</h1>
@@ -21,6 +31,7 @@ function Page() {
         <DonationBox image="/assets/iskon.png" amt="1500" frq="monthly" />
       </div>
     </div>
+    
   )
 }
 
