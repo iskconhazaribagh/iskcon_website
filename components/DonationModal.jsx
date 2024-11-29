@@ -1,5 +1,6 @@
 "use client"
 import React,{useState} from 'react';
+import { RxCross2 } from "react-icons/rx";
 
 function DonationModal({ isOpen, onClose, amt }) {
   if (!isOpen) return null; 
@@ -119,9 +120,13 @@ function DonationModal({ isOpen, onClose, amt }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" >
       <div className="bg-[#FF6000] text-white p-10 md:p-16  rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[85%] overflow-y-scroll scrollbar-hide">
-        <h1 className='font-semibold text-xl md:text-2xl'>Details</h1>
+      <span className='flex items-center justify-between w-full'>
+      <h1 className='font-semibold text-xl md:text-2xl'>Details</h1>
+      <RxCross2  className='text-white text-2xl' onClick={onClose}/>
+      </span>
+        
         {/*Info form */}
        <div className='flex flex-col gap-4 items-start justify-start w-full'>
 
@@ -166,7 +171,7 @@ function DonationModal({ isOpen, onClose, amt }) {
        </div>
 
        <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Start Date</label>
+        <label>End Date</label>
         <input type='text'  placeholder='DD-MM-YYYY' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
        </div>
 

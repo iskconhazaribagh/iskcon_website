@@ -30,13 +30,23 @@ function DonationBox({ image, amt, frq }) {
             <p className='text-xl'>{amt}</p>
           </span>
           <p className="text-sm font-normal">Frequency {frq}</p>
-        </div>
-      </div>
-      <button className='p-2  flex flexr-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'>
+
+          <button className='p-2  flex md:hidden flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
+      onClick={handleModalOpen}>
         <p className='font-semibold text-sm'>Donate</p>
         <FaCirclePlay 
         className=' text-xl ' 
-        onClick={handleModalOpen}  // Open modal on click
+          // Open modal on click
+      />
+      </button>
+        </div>
+      </div>
+      <button className='p-2 hidden md:flex flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
+      onClick={handleModalOpen}>
+        <p className='font-semibold text-sm'>Donate</p>
+        <FaCirclePlay 
+        className=' text-xl ' 
+          // Open modal on click
       />
       </button>
       
