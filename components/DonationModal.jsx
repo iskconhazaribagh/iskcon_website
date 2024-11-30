@@ -1,9 +1,9 @@
-"use client"
-import React,{useState} from 'react';
+"use client";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
 function DonationModal({ isOpen, onClose, amt }) {
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,10 +23,12 @@ function DonationModal({ isOpen, onClose, amt }) {
     setFormData({ ...formData, [name]: value });
   };
 
-
   const handleSubmit = async (e) => {
-    
     e.preventDefault();
+    // console.log("Form Data Before Submission:");
+    // for (const key in formData) {
+    //   console.log(`${key}: ${formData[key]}`);
+    // }
     try {
       const response = await fetch("http://localhost:3000/submit_enach", {
         method: "POST",
@@ -49,6 +51,7 @@ function DonationModal({ isOpen, onClose, amt }) {
     }
   };
 
+
   const handleResponse = (res) => {
     if (
       res?.paymentMethod?.paymentTransaction?.statusCode === "0300"
@@ -62,7 +65,6 @@ function DonationModal({ isOpen, onClose, amt }) {
       console.log("Payment error");
     }
   };
-
 
   const register = (token) => {
     const reqJson = {
@@ -119,67 +121,118 @@ function DonationModal({ isOpen, onClose, amt }) {
     }
   };
 
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" >
-      <div className="bg-[#FF6000] text-white p-10 md:p-16  rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[85%] overflow-y-scroll scrollbar-hide">
-      <span className='flex items-center justify-between w-full'>
-      <h1 className='font-semibold text-xl md:text-2xl'>Details</h1>
-      <RxCross2  className='text-white text-2xl' onClick={onClose}/>
-      </span>
-        
-        {/*Info form */}
-       <div className='flex flex-col gap-4 items-start justify-start w-full'>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-[#FF6000] mt-16 md:mt-0 text-white p-10 md:p-16 rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[72%] md:h-[85%] overflow-y-scroll scrollbar-hide z-50">
+        <span className="flex items-center justify-between w-full">
+          <h1 className="font-semibold text-xl md:text-2xl">Details</h1>
+          <RxCross2 className="text-white text-2xl" onClick={onClose} />
+        </span>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Name</label>
-        <input type='text' placeholder='Name' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+        {/* Info form */}
+        <div className="flex flex-col gap-4 items-start justify-start w-full">
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Email</label>
-        <input type='text' placeholder='Email@example.com' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              placeholder="Email@example.com"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Phone Number</label>
-        <input type='text' placeholder='+1234567890' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Phone Number</label>
+            <input
+              type="text"
+              name="phone"
+              placeholder="+1234567890"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Acoount Number</label>
-        <input type='text'  className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Account Number</label>
+            <input
+              type="text"
+              name="account_number"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>IFSC code</label>
-        <input type='text'  className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>IFSC code</label>
+            <input
+              type="text"
+              name="ifsc"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Bank Name</label>
-        <input type='text' placeholder='' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Bank Name</label>
+            <input
+              type="text"
+              name="bank_name"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Amount</label>
-        <input type='text'  className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Amount</label>
+            <input
+              type="text"
+              name="amount"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>Start Date</label>
-        <input type='text' placeholder='DD-MM-YYYY' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Start Date</label>
+            <input
+              type="date"
+              name="startDate"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
 
-       <div className='flex flex-col gap-2 items-start justify-start w-full'>
-        <label>End Date</label>
-        <input type='text'  placeholder='DD-MM-YYYY' className='p-2 w-full rounded-[8px] ' onChange={handleChange}/>
-       </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>End Date</label>
+            <input
+              type="date"
+              name="endDate"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
+        </div>
 
-       </div>
-        
-        {/*Payment button */}
-        <button className='w-full p-5 text-orange-600 font-semibold text-xl text-center bg-white rounded-[40px]'
-        onClick={handleSubmit}>Proceed to Pay</button>
+        {/* Payment button */}
+        <button
+          className="w-full p-5 text-orange-600 font-semibold text-xl text-center bg-white rounded-[40px]"
+          onClick={handleSubmit}
+        >
+          Proceed to Pay
+        </button>
       </div>
     </div>
   );

@@ -15,38 +15,35 @@ function DonationBox({ image, amt, frq }) {
   };
 
   return (
-    <div className="flex flex-row items-center justify-between w-[90%] md:w-[40%]">
+    <div className="flex flex-row items-center justify-between w-[90%] lg:w-[55%]">
       <div className='flex flex-row justify-start items-center gap-5'>
         <Image
           src={image}
           alt="Donation"
-          width={140}
-          height={140}
-          className="rounded-lg bg-blue-500 shadow-xl p-5"
+          width={130}
+          height={130}
+          className="rounded-lg bg-blue-500 shadow-xl p-3"
         />
-        <div className='flex flex-col items-start'>
-          <span className="font-semibold mb-2 flex items-center">
-            <FaIndianRupeeSign className='text-lg' />
-            <p className='text-xl'>{amt}</p>
-          </span>
-          <p className="text-sm font-normal">Frequency {frq}</p>
+        <div className='flex flex-col items-start gap-4'>
 
-          <button className='p-2  flex md:hidden flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
+          <span className="text-sm font-normal"><p className='font-bold text-xl md:text-2xl'>Frequency</p> 
+         <p className='font-normal text-md md:text-lg'>{frq}</p> 
+          </span>
+
+          <button className='p-2  flex sm:hidden flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
       onClick={handleModalOpen}>
         <p className='font-semibold text-sm'>Donate</p>
         <FaCirclePlay 
-        className=' text-xl ' 
-          // Open modal on click
+        className=' text-lg ' 
       />
       </button>
         </div>
       </div>
-      <button className='p-2 hidden md:flex flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
+      <button className='p-2 hidden sm:flex flex-row rounded-[20px] gap-1 items-center justify-between bg-orange-500 text-white cursor-pointer'
       onClick={handleModalOpen}>
         <p className='font-semibold text-sm'>Donate</p>
         <FaCirclePlay 
         className=' text-xl ' 
-          // Open modal on click
       />
       </button>
       
