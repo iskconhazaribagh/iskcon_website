@@ -22,7 +22,7 @@ function DonationBox({ image, amt, frq }) {
           alt="Donation"
           width={130}
           height={130}
-          className="rounded-lg bg-blue-500 shadow-xl p-3"
+          className={`rounded-lg bg-blue-500 shadow-xl p-3 ${amt==="rec"? "bg-blue-400":"bg-purple-400"}`}
         />
         <div className='flex flex-col items-start gap-4'>
 

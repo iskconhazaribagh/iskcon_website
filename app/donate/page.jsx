@@ -26,8 +26,8 @@ function Page() {
 
       {/* Donation Boxes */}
       <div className='relative z-10 w-[85%] flex flex-col gap-8 mt-8   mb-20'>
-        <DonationBox image="/assets/iskon.png"  frq="Recurring" />
-        <DonationBox image="/assets/iskon.png"  frq="one time" />
+        <DonationBox image="/assets/iskon.png" amt="rec" frq="Recurring" />
+        <DonationBox image="/assets/iskon.png" amt="one" frq="one time" />
       </div>
     </div>
     
