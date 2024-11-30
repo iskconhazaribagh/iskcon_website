@@ -30,7 +30,8 @@ function DonationModal({ isOpen, onClose, amt }) {
     //   console.log(`${key}: ${formData[key]}`);
     // }
     try {
-      const response = await fetch("http://localhost:3000/submit_enach", {
+        const url = 'https://server.iskconapp.com/ics/api/actionHandler'
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
