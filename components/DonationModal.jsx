@@ -1,12 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-
+import axios from "axios";
 function DonationModal({ isOpen, onClose, amt }) {
+
+
+  const generateUID = () => {
+    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+  };
+
+
+
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
+    cn:'schemeMember',
+    an:'enroll',
+    enach: 'true',
+    schemeName: 'General', //ideally should be user input
     name: "",
+    lname: "sa",
     email: "",
     phone: "",
     account_number: "",
@@ -15,7 +28,7 @@ function DonationModal({ isOpen, onClose, amt }) {
     amount: "",
     startDate: "",
     endDate: "",
-    txnid: "",
+    txnid: generateUID(),
   });
 
   const handleChange = (e) => {
@@ -27,24 +40,44 @@ function DonationModal({ isOpen, onClose, amt }) {
     e.preventDefault();
     // console.log("Form Data Before Submission:");
     // for (const key in formData) {
-    //   console.log(`${key}: ${formData[key]}`);
+    //   console.log(${key}: ${formData[key]});
     // }
     try {
         const url = 'https://server.iskconapp.com/ics/api/actionHandler'
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+        const response = await axios.post(url, 
+           formData,
+           {
+            withCredentials: true,
+            auth: {
+                username: 'hazsmadmin',
+                password: 'hazsmadmin'
+            }
+           }
+        );
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
 
-      const result = await response.json();
-      console.log("Success:", result);
+      
+      console.log("token:", response.data.token);
 
-      if (result.data && result.data.token) {
-        register(result.data.token);
-        alert("Registration successful!");
+      if (response.data && response.data.token) {
+       // console
+       
+          const resp=await axios.post("https://server.iskconapp.com/ics/api/submit_enach",
+            formData
+          ).then(data => {
+            console.log('Success:', data);
+            register(resp.data.token.token);
+            alert('Registration successful!');
+        })
+
+        // register(response.data.token);
+        // alert("Registration successful!");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -68,6 +101,7 @@ function DonationModal({ isOpen, onClose, amt }) {
   };
 
   const register = (token) => {
+    console.log("token in register",token);
     const reqJson = {
       features: {
         enableAbortResponse: true,
@@ -79,7 +113,7 @@ function DonationModal({ isOpen, onClose, amt }) {
       consumerData: {
         deviceId: "WEBSH2",
         token: token,
-        returnUrl: "https://iskconpune.com",
+        returnUrl: "https://www.iskconhazaribagh.com/",
         responseHandler: handleResponse,
         paymentMode: "netBanking",
         merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
@@ -143,7 +177,16 @@ function DonationModal({ isOpen, onClose, amt }) {
               onChange={handleChange}
             />
           </div>
-
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Legal Name</label>
+            <input
+              type="text"
+              name="lname"
+              placeholder="Legal Name"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
           <div className="flex flex-col gap-2 items-start justify-start w-full">
             <label>Email</label>
             <input
