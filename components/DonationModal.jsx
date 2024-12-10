@@ -65,6 +65,7 @@ function DonationModal({ isOpen, onClose, amt }) {
 
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     // console.log("Form Data Before Submission:");
     // for (const key in formData) {
@@ -137,7 +138,7 @@ function DonationModal({ isOpen, onClose, amt }) {
         responseHandler: handleResponse,
         paymentMode: "netBanking",
         merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
-        merchantId: "T1051856",
+        merchantId: "L1051856",
         currency: "INR",
         consumerId: "ICS108",
         consumerMobileNo: formData.phone,
@@ -146,7 +147,7 @@ function DonationModal({ isOpen, onClose, amt }) {
         items: [
           {
             itemId: "FIRST",
-            amount: "10",
+            amount: formData.amount,
             comAmt: "0",
           },
         ],
@@ -310,13 +311,62 @@ function DonationModal({ isOpen, onClose, amt }) {
           </div>
           <Image src="/assets/qr.jpeg"
           alt="Donation"
-          width={250}
-          height={200}></Image>
+          width={200}
+          height={180}></Image>
           <h1 className="text-center text-white text-xl font-bold"> SCAN the QR to Pay</h1>
-          <div className="flex flex-col gap-1.5 ">
-          <h1 className="text-white font-semibold">A/C NAME -ISKCON</h1>
-          <h1 className="text-white font-semibold">A/C NUMBER -048901003308</h1>
-          <h1 className="text-white font-semibold">IFSC CODE-ICIC0000489</h1>
+          <div className="flex flex-col gap-1 ">
+          <h1 className="text-white font-semibold text-md">A/C NAME -ISKCON</h1>
+          <h1 className="text-white font-semibold text-md">A/C NUMBER -048901003308</h1>
+          <h1 className="text-white font-semibold text-md">IFSC CODE-ICIC0000489</h1>
+          </div>
+
+          <div className="flex flex-col gap-4 items-start justify-start w-full">
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              placeholder="Email@example.com"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Phone Number</label>
+            <input
+              type="text"
+              name="phone"
+              placeholder="+1234567890"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <label>Account Number</label>
+            <input
+              type="text"
+              name="account_number"
+              className="p-2 w-full rounded-[8px] text-black"
+              onChange={handleChange}
+            />
+          </div>
+          <button
+          className="w-full p-5 text-orange-600 font-semibold text-xl text-center bg-white rounded-[40px]"
+          
+        >
+         Submit
+        </button>
           </div>
           </div>
         )
