@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
+import Image from "next/image";
 function DonationModal({ isOpen, onClose, amt }) {
 
 
@@ -9,7 +10,7 @@ function DonationModal({ isOpen, onClose, amt }) {
     return Math.floor(1000000000 + Math.random() * 9000000000).toString();
   };
 
-
+ 
 
   if (!isOpen) return null;
 
@@ -35,6 +36,33 @@ function DonationModal({ isOpen, onClose, amt }) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    // Dynamically load external scripts
+    const loadScript = (src) => {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+      });
+    };
+
+    const loadJQueryAndCheckout = async () => {
+      try {
+        await loadScript("https://www.paynimo.com/paynimocheckout/client/lib/jquery.min.js");
+        await loadScript("https://www.paynimo.com/paynimocheckout/server/lib/checkout.js");
+        console.log("Scripts loaded successfully.");
+      } catch (err) {
+        console.error("Error loading scripts:", err);
+      }
+    };
+
+    loadJQueryAndCheckout();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,16 +96,8 @@ function DonationModal({ isOpen, onClose, amt }) {
       if (response.data && response.data.token) {
        // console
        
-          const resp=await axios.post("https://server.iskconapp.com/ics/api/submit_enach",
-            formData
-          ).then(data => {
-            console.log('Success:', data);
-            register(resp.data.token.token);
-            alert('Registration successful!');
-        })
-
-        // register(response.data.token);
-        // alert("Registration successful!");
+        register(response.data.token);
+        //alert("Registration successful!");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -159,13 +179,18 @@ function DonationModal({ isOpen, onClose, amt }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-[#FF6000] mt-16 md:mt-0 text-white p-10 md:p-16 rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[72%] md:h-[85%] overflow-y-scroll scrollbar-hide z-50">
-        <span className="flex items-center justify-between w-full">
+      <div className={`bg-[#FF6000] mt-16 md:mt-0 text-white p-10 md:p-16 rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[72%] md:h-[85%] overflow-y-scroll scrollbar-hide z-50`}>
+
+
+
+      {
+        amt=="rec"?(
+          <div className="w-full flex flex-col gap-3">
+          <span className="flex items-center justify-between w-full">
           <h1 className="font-semibold text-xl md:text-2xl">Details</h1>
           <RxCross2 className="text-white text-2xl" onClick={onClose} />
         </span>
-
-        {/* Info form */}
+          {/* Info form */}
         <div className="flex flex-col gap-4 items-start justify-start w-full">
           <div className="flex flex-col gap-2 items-start justify-start w-full">
             <label>Name</label>
@@ -277,6 +302,26 @@ function DonationModal({ isOpen, onClose, amt }) {
         >
           Proceed to Pay
         </button>
+        </div>
+        ):(
+          <div className="flex flex-col gap-3.5 w-full items-center justify-center">
+          <div className="flex items-end justify-end w-full">
+          <RxCross2 className="text-white text-2xl font-bold " onClick={onClose} />
+          </div>
+          <Image src="/assets/qr.jpeg"
+          alt="Donation"
+          width={250}
+          height={200}></Image>
+          <h1 className="text-center text-white text-xl font-bold"> SCAN the QR to Pay</h1>
+          <div className="flex flex-col gap-1.5 ">
+          <h1 className="text-white font-semibold">A/C NAME -ISKCON</h1>
+          <h1 className="text-white font-semibold">A/C NUMBER -048901003308</h1>
+          <h1 className="text-white font-semibold">IFSC CODE-ICIC0000489</h1>
+          </div>
+          </div>
+        )
+      }
+        
       </div>
     </div>
   );
