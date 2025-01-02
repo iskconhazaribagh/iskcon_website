@@ -19,22 +19,29 @@ function DonationModal({ isOpen, onClose, amt }) {
     an:'enroll',
     enach: 'true',
     schemeName: 'General', //ideally should be user input
-    name: "",
+    name: "Anus",
     lname: "sa",
-    email: "",
-    phone: "",
-    account_number: "",
-    ifsc: "",
-    bank_name: "",
-    amount: "",
-    startDate: "",
-    endDate: "",
+    email: "anu@gmail.com",
+    phone: "12345678",
+    account_number: "35895p938y",
+    ifsc: "bank1234",
+    bank_name: "bankname",
+    amount: "20",
+    startDate: "03-01-2025",
+    endDate: "05-01-2025",
     txnid: generateUID(),
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "startDate" || name === "endDate") {
+  
+      const [year, month, day] = value.split("-");
+      const formattedDate = `${day}-${month}-${year}`;
+      setFormData({ ...formData, [name]: formattedDate });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   useEffect(() => {
@@ -69,7 +76,7 @@ function DonationModal({ isOpen, onClose, amt }) {
     e.preventDefault();
     // console.log("Form Data Before Submission:");
     // for (const key in formData) {
-    //   console.log(${key}: ${formData[key]});
+    //   console.log(`${key}: ${formData[key]}`);
     // }
     try {
         const url = 'https://server.iskconapp.com/ics/api/actionHandler'
@@ -198,6 +205,7 @@ function DonationModal({ isOpen, onClose, amt }) {
             <input
               type="text"
               name="name"
+              //value={formData.name}
               placeholder="Name"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
