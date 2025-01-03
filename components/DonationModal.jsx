@@ -98,13 +98,13 @@ function DonationModal({ isOpen, onClose, amt }) {
       //   body: JSON.stringify(formData),
       // });
 
-      
-      console.log("token:", response.data.token);
+      //console.log("response",response);
+      //console.log("token:", response.data.token);
 
       if (response.data && response.data.token) {
        // console
        
-        register(response.data.token);
+       await register(response.data.token,response.data.icsid);
         //alert("Registration successful!");
       }
     } catch (error) {
@@ -128,8 +128,9 @@ function DonationModal({ isOpen, onClose, amt }) {
     }
   };
 
-  const register = (token) => {
+  const register = (token,id) => {
     console.log("token in register",token);
+    console.log("id:",id);
     const reqJson = {
       features: {
         enableAbortResponse: true,
@@ -140,14 +141,14 @@ function DonationModal({ isOpen, onClose, amt }) {
       },
       consumerData: {
         deviceId: "WEBSH2",
-        token: token,
-        returnUrl: "https://www.iskconhazaribagh.com/",
+        token,
+        returnUrl: "https://pgproxyuat.in.worldline-solutions.com/linuxsimulator/MerchantResponsePage.jsp",
         responseHandler: handleResponse,
         paymentMode: "netBanking",
         merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
         merchantId: "L1051856",
         currency: "INR",
-        consumerId: "ICS108",
+        consumerId: id,
         consumerMobileNo: formData.phone,
         consumerEmailId: formData.email,
         txnId: formData.txnid,
