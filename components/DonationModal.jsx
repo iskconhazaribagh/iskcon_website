@@ -19,17 +19,18 @@ function DonationModal({ isOpen, onClose, amt }) {
     an:'enroll',
     enach: 'true',
     schemeName: 'General', //ideally should be user input
-    name: "Anus",
-    lname: "sa",
-    email: "anu@gmail.com",
-    phone: "12345678",
-    account_number: "35895p938y",
-    ifsc: "bank1234",
-    bank_name: "bankname",
-    amount: "20",
-    startDate: "03-01-2025",
-    endDate: "05-01-2025",
+    name: "",
+    lname: "",
+    email: "",
+    phone: "",
+    account_number: "",
+    ifsc: "",
+    bank_name: "",
+    amount: "",
+    startDate: "",
+    endDate: "",
     txnid: generateUID(),
+    // icsid: "ICS108",
   });
 
   const handleChange = (e) => {
@@ -74,10 +75,6 @@ function DonationModal({ isOpen, onClose, amt }) {
   const handleSubmit = async (e) => {
     
     e.preventDefault();
-    // console.log("Form Data Before Submission:");
-    // for (const key in formData) {
-    //   console.log(`${key}: ${formData[key]}`);
-    // }
     try {
         const url = 'https://server.iskconapp.com/ics/api/actionHandler'
         const response = await axios.post(url, 
@@ -90,22 +87,11 @@ function DonationModal({ isOpen, onClose, amt }) {
             }
            }
         );
-      // const response = await fetch(url, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-
-      //console.log("response",response);
-      //console.log("token:", response.data.token);
 
       if (response.data && response.data.token) {
        // console
        
-       await register(response.data.token,response.data.icsid);
-        //alert("Registration successful!");
+       await register(response.data.token.token,response.data.icsid);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -128,9 +114,9 @@ function DonationModal({ isOpen, onClose, amt }) {
     }
   };
 
-  const register = (token,id) => {
-    console.log("token in register",token);
-    console.log("id:",id);
+  const register = (token, id) => {
+    console.log("token in register:", token);
+    console.log("id:", id);
     const reqJson = {
       features: {
         enableAbortResponse: true,
@@ -141,14 +127,14 @@ function DonationModal({ isOpen, onClose, amt }) {
       },
       consumerData: {
         deviceId: "WEBSH2",
-        token,
-        returnUrl: "https://pgproxyuat.in.worldline-solutions.com/linuxsimulator/MerchantResponsePage.jsp",
+        token, 
+        returnUrl: "iskconhazaribagh.com",
         responseHandler: handleResponse,
         paymentMode: "netBanking",
         merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
         merchantId: "L1051856",
         currency: "INR",
-        consumerId: id,
+        consumerId:id,
         consumerMobileNo: formData.phone,
         consumerEmailId: formData.email,
         txnId: formData.txnid,
@@ -176,14 +162,14 @@ function DonationModal({ isOpen, onClose, amt }) {
         frequency: "MNTH",
       },
     };
-
+  
     console.log(reqJson);
-
+  
     window.$.pnCheckout(reqJson);
     if (reqJson.features.enableNewWindowFlow) {
       window.pnCheckoutShared.openNewWindow();
     }
-  };
+  };  
 
 
   return (
