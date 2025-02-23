@@ -128,7 +128,7 @@ function DonationModal({ isOpen, onClose, amt }) {
       consumerData: {
         deviceId: "WEBSH2",
         token, 
-        returnUrl: "iskconhazaribagh.com",
+        returnUrl: "https://iskconhazaribagh.com",
         responseHandler: handleResponse,
         paymentMode: "netBanking",
         merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
