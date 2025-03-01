@@ -46,12 +46,17 @@ export default function Home() {
         <div className={`relative z-10 flex flex-col items-center justify-center gap-3 md:gap-5 ${haRa.className}`}>
           <div className="flex flex-row gap-3 mt-24 md:mt-4">
             <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] custom-lg:text-[126px] font-medium font-hara">Experience</span>
-            <div className="rounded-[85px] p-1 bg-orange-300 w-40 md:w-80 hidden md:block"></div>
+            
+            <div className="rounded-[85px] p-1  w-40 md:w-80 hidden md:block object-cover">
+              <Image src="/assets/krishna1.jpg" alt="pic" height={350} width={350} className='rounded-full' />
+            </div>
           </div>
 
           <div className="flex flex-row gap-3">
             <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] custom-lg:text-[126px] font-medium font-hara">Divine{" "}</span>
-            <div className="rounded-[85px] p-1 bg-orange-300 w-40 md:w-80 hidden md:block"></div>
+            <div className="rounded-[85px] p-1  w-40 md:w-80 hidden md:block">
+            <Image src="/assets/krishna2.jpg" alt="pic" height={350} width={350} className='rounded-full' />
+            </div>
             <span className="text-[40px] custom-sm:text-[60px] md:text-[80px] custom-lg:text-[126px] font-medium font-hara">Bliss At</span>
           </div>
 
