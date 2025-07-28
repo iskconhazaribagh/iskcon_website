@@ -171,7 +171,7 @@ function DonationModal({ isOpen, onClose, amt }) {
             <input
               type="text"
               name="email"
-              placeholder="Email@example.com"
+              placeholder="Email ID"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
@@ -199,7 +199,7 @@ function DonationModal({ isOpen, onClose, amt }) {
             <input
               type="text"
               name="pan"
-              placeholder="PAN (Optional)"
+              placeholder="PAN Number [Optional]"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
@@ -231,7 +231,7 @@ function DonationModal({ isOpen, onClose, amt }) {
               className="w-full p-4 text-orange-600 font-semibold text-xl bg-white rounded-[40px]"
               onClick={handleSubmit}
             >
-              Proceed to Pay
+              Proceed to Donate Monthly
             </button>
           </div>
         ) : (
