@@ -251,6 +251,6 @@ function DonationModal({ isOpen, onClose, amt }) {
       </div>
     </div>
   );
-}
+} 
 
 export default DonationModal;
