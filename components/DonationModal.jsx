@@ -22,11 +22,12 @@ function DonationModal({ isOpen, onClose, amt }) {
   const [state, setState] = useState("");
 
   const PLAN_IDS = {
-    251: "plan_LxG8v1ABCDE1",
-    501: "plan_LxG8v1ABCDE2",
-    1001: "plan_LxG8v1ABCDE3",
-    2001: "plan_LxG8v1ABCDE4",
-    5001: "plan_QrHBukA5fydfI8",
+    101: "plan_QyQC5lyxzzlE11",
+    251: "plan_QyQBmzuzaV6EYY",
+    501: "plan_QyQBLgRqIeeJih",
+    1001: "plan_QyQCNf4APXGov1",
+    2001: "plan_QyQCVmLg7mqnsX",
+    5001: "plan_QyQCf4sFHldB5T",
   };
 
   useEffect(() => {
@@ -208,6 +209,7 @@ function DonationModal({ isOpen, onClose, amt }) {
               onChange={handleChange}
             >
               <option value="">Select Amount</option>
+              <option value="101">₹101</option>
               <option value="251">₹251</option>
               <option value="501">₹501</option>
               <option value="1001">₹1001</option>
