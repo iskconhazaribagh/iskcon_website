@@ -1,215 +1,172 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import Image from "next/image";
+
 function DonationModal({ isOpen, onClose, amt }) {
-
-
-  const generateUID = () => {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
-  };
-
- 
-
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
-    cn:'schemeMember',
-    an:'enroll',
-    enach: 'true',
-    schemeName: 'General', //ideally should be user input
     name: "",
-    lname: "",
     email: "",
     phone: "",
-    account_number: "",
-    ifsc: "",
-    bank_name: "",
+    address: "",
+    pincode: "",
+    pan: "",
     amount: "",
-    startDate: "",
-    endDate: "",
-    txnid: generateUID(),
-    // icsid: "ICS108",
+    customAmount: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "startDate" || name === "endDate") {
-  
-      const [year, month, day] = value.split("-");
-      const formattedDate = `${day}-${month}-${year}`;
-      setFormData({ ...formData, [name]: formattedDate });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+
+  const PLAN_IDS = {
+    251: "plan_LxG8v1ABCDE1",
+    501: "plan_LxG8v1ABCDE2",
+    1001: "plan_LxG8v1ABCDE3",
+    2001: "plan_LxG8v1ABCDE4",
+    5001: "plan_QrHBukA5fydfI8",
   };
 
   useEffect(() => {
-    // Dynamically load external scripts
-    const loadScript = (src) => {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src = src;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-    };
-
-    const loadJQueryAndCheckout = async () => {
-      try {
-        await loadScript("https://www.paynimo.com/paynimocheckout/client/lib/jquery.min.js");
-        await loadScript("https://www.paynimo.com/paynimocheckout/server/lib/checkout.js");
-        console.log("Scripts loaded successfully.");
-      } catch (err) {
-        console.error("Error loading scripts:", err);
-      }
-    };
-
-    loadJQueryAndCheckout();
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
   }, []);
 
+  useEffect(() => {
+    if (formData.pincode.length === 6) {
+      axios
+        .get(`https://api.postalpincode.in/pincode/${formData.pincode}`)
+        .then((res) => {
+          const info = res.data[0]?.PostOffice?.[0];
+          if (info) {
+            setCity(info.District);
+            setState(info.State);
+          }
+        })
+        .catch(() => {
+          setCity("");
+          setState("");
+        });
+    }
+  }, [formData.pincode]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
-    
     e.preventDefault();
-    try {
-        const url = 'https://server.iskconapp.com/ics/api/actionHandler'
-        const response = await axios.post(url, 
-           formData,
-           {
-            withCredentials: true,
-            auth: {
-                username: 'hazsmadmin',
-                password: 'hazsmadmin'
-            }
-           }
-        );
 
-      if (response.data && response.data.token) {
-       // console
-       
-       await register(response.data.token.token,response.data.icsid);
+    if (amt === "rec") {
+      const finalAmount =
+        formData.amount === "custom" ? formData.customAmount : formData.amount;
+      const fixedPlanId = PLAN_IDS[finalAmount];
+
+      if (fixedPlanId) {
+        createSubscription(fixedPlanId);
+      } else {
+        try {
+          const planRes = await axios.post("/api/createRazorpayPlan", {
+            amount: finalAmount,
+          });
+
+          const newPlanId = planRes.data.plan_id;
+          createSubscription(newPlanId);
+        } catch (err) {
+          console.error("Plan creation failed", err);
+          alert("Could not create plan. Try again.");
+        }
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Registration failed!");
-    }
-  };
-
-
-  const handleResponse = (res) => {
-    if (
-      res?.paymentMethod?.paymentTransaction?.statusCode === "0300"
-    ) {
-      console.log("Payment successful");
-    } else if (
-      res?.paymentMethod?.paymentTransaction?.statusCode === "0398"
-    ) {
-      console.log("Payment initiated");
     } else {
-      console.log("Payment error");
+      window.location.href = "https://rzp.io/rzp/ISKCONHazaribagh";
     }
   };
 
-  const register = (token, id) => {
-    console.log("token in register:", token);
-    console.log("id:", id);
-    const reqJson = {
-      features: {
-        enableAbortResponse: true,
-        enableExpressPay: true,
-        enableMerTxnDetails: true,
-        siDetailsAtMerchantEnd: true,
-        enableSI: true,
-      },
-      consumerData: {
-        deviceId: "WEBSH2",
-        token, 
-        returnUrl: "https://iskconhazaribagh.com",
-        responseHandler: handleResponse,
-        paymentMode: "netBanking",
-        merchantLogoUrl: "https://www.paynimo.com/CompanyDocs/company-logo-vertical.png",
-        merchantId: "L1051856",
-        currency: "INR",
-        consumerId:id,
-        consumerMobileNo: formData.phone,
-        consumerEmailId: formData.email,
-        txnId: formData.txnid,
-        items: [
-          {
-            itemId: "FIRST",
-            amount: formData.amount,
-            comAmt: "0",
-          },
-        ],
-        customStyle: {
-          PRIMARY_COLOR_CODE: "#45beaa",
-          SECONDARY_COLOR_CODE: "#FFFFFF",
-          BUTTON_COLOR_CODE_1: "#2d8c8c",
-          BUTTON_COLOR_CODE_2: "#FFFFFF",
-        },
-        accountNo: formData.account_number,
-        accountHolderName: formData.name,
-        ifscCode: formData.ifsc,
-        accountType: "Saving",
-        debitStartDate: formData.startDate,
-        debitEndDate: formData.endDate,
-        maxAmount: formData.amount,
-        amountType: "M",
-        frequency: "MNTH",
-      },
-    };
-  
-    console.log(reqJson);
-  
-    window.$.pnCheckout(reqJson);
-    if (reqJson.features.enableNewWindowFlow) {
-      window.pnCheckoutShared.openNewWindow();
-    }
-  };  
+  const createSubscription = async (planId) => {
+    console.log("Calling createSubscription with:", {
+      plan_id: planId,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      amount:
+        formData.amount === "custom" ? formData.customAmount : formData.amount,
+      address: formData.address,
+      pincode: formData.pincode,
+      pan: formData.pan,
+      city,
+      state,
+    });
+    try {
+      const res = await axios.post("/api/createRazorpaySubscription", {
+        plan_id: planId,
+        ...formData,
+        amount:
+          formData.amount === "custom"
+            ? formData.customAmount
+            : formData.amount,
+        city,
+        state,
+      });
 
+      const { subscription_id, razorpay_key } = res.data;
+
+      const options = {
+        key: razorpay_key,
+        subscription_id,
+        name: "ISKCON Hazaribagh",
+        description: "Monthly Donation",
+        handler: function (response) {
+          alert("Subscription successful! ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: {
+          PAN: formData.pan || "N/A",
+          Address: formData.address,
+          Pincode: formData.pincode,
+          City: city,
+          State: state,
+        },
+        theme: {
+          color: "#FF6000",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Subscription creation failed", err);
+      alert("Something went wrong. Please try again.");
+    }
+  };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className={`bg-[#FF6000] mt-16 md:mt-0 text-white p-10 md:p-16 rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[72%] md:h-[85%] overflow-y-scroll scrollbar-hide z-50`}>
-
-
-
-      {
-        amt=="rec"?(
-          <div className="w-full flex flex-col gap-3">
-          <span className="flex items-center justify-between w-full">
-          <h1 className="font-semibold text-xl md:text-2xl">Details</h1>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-[#FF6000] mt-16 md:mt-0 text-white p-10 md:p-16 rounded-[16px] shadow-lg w-[80%] md:w-[55%] lg:w-[38%] text-center flex flex-col gap-5 items-start justify-start h-[72%] md:h-[85%] overflow-y-scroll scrollbar-hide">
+        <div className="w-full flex items-center justify-between">
+          <h1 className="font-semibold text-xl md:text-2xl">
+            {amt === "rec" ? "Monthly Donation Details" : "One Time Donation"}
+          </h1>
           <RxCross2 className="text-white text-2xl" onClick={onClose} />
-        </span>
-          {/* Info form */}
-        <div className="flex flex-col gap-4 items-start justify-start w-full">
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Name</label>
+        </div>
+
+        {amt === "rec" ? (
+          <div className="flex flex-col gap-4 items-start justify-start w-full">
             <input
               type="text"
               name="name"
-              //value={formData.name}
               placeholder="Name"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Legal Name</label>
-            <input
-              type="text"
-              name="lname"
-              placeholder="Legal Name"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Email</label>
             <input
               type="text"
               name="email"
@@ -217,156 +174,78 @@ function DonationModal({ isOpen, onClose, amt }) {
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Phone Number</label>
             <input
               type="text"
               name="phone"
-              placeholder="+1234567890"
+              placeholder="Mobile Number"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Account Number</label>
             <input
               type="text"
-              name="account_number"
+              name="address"
+              placeholder="Full Postal Address"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>IFSC code</label>
             <input
               type="text"
-              name="ifsc"
+              name="pincode"
+              placeholder="PIN Code"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Bank Name</label>
             <input
               type="text"
-              name="bank_name"
+              name="pan"
+              placeholder="PAN (Optional)"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Amount</label>
-            <input
-              type="text"
+            <select
               name="amount"
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
-            />
-          </div>
+            >
+              <option value="">Select Amount</option>
+              <option value="251">₹251</option>
+              <option value="501">₹501</option>
+              <option value="1001">₹1001</option>
+              <option value="2001">₹2001</option>
+              <option value="5001">₹5001</option>
+              <option value="custom">Other Amount</option>
+            </select>
+            {formData.amount === "custom" && (
+              <input
+                type="number"
+                name="customAmount"
+                placeholder="Enter custom amount"
+                className="p-2 w-full rounded-[8px] text-black"
+                onChange={handleChange}
+              />
+            )}
 
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Start Date</label>
-            <input
-              type="date"
-              name="startDate"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
+            <button
+              className="w-full p-4 text-orange-600 font-semibold text-xl bg-white rounded-[40px]"
+              onClick={handleSubmit}
+            >
+              Proceed to Pay
+            </button>
           </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
+        ) : (
+          <div className="w-full">
+            <p className="text-lg">
+              You will be redirected to our secure payment gateway for one-time
+              donation.
+            </p>
+            <button
+              className="w-full mt-6 p-4 text-orange-600 font-semibold text-xl bg-white rounded-[40px]"
+              onClick={handleSubmit}
+            >
+              Donate Now
+            </button>
           </div>
-        </div>
-
-        {/* Payment button */}
-        <button
-          className="w-full p-5 text-orange-600 font-semibold text-xl text-center bg-white rounded-[40px]"
-          onClick={handleSubmit}
-        >
-          Proceed to Pay
-        </button>
-        </div>
-        ):(
-          <div className="flex flex-col gap-3.5 w-full items-center justify-center">
-          <div className="flex items-end justify-end w-full">
-          <RxCross2 className="text-white text-2xl font-bold " onClick={onClose} />
-          </div>
-          <Image src="/assets/qr.jpeg"
-          alt="Donation"
-          width={200}
-          height={180}></Image>
-          <h1 className="text-center text-white text-xl font-bold"> SCAN the QR to Pay</h1>
-          <div className="flex flex-col gap-1 ">
-          <h1 className="text-white font-semibold text-md">A/C NAME -ISKCON</h1>
-          <h1 className="text-white font-semibold text-md">A/C NUMBER -048901003308</h1>
-          <h1 className="text-white font-semibold text-md">IFSC CODE-ICIC0000489</h1>
-          </div>
-
-          <div className="flex flex-col gap-4 items-start justify-start w-full">
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Email</label>
-            <input
-              type="text"
-              name="email"
-              placeholder="Email@example.com"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Phone Number</label>
-            <input
-              type="text"
-              name="phone"
-              placeholder="+1234567890"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 items-start justify-start w-full">
-            <label>Account Number</label>
-            <input
-              type="text"
-              name="account_number"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            />
-          </div>
-          <button
-          className="w-full p-5 text-orange-600 font-semibold text-xl text-center bg-white rounded-[40px]"
-          
-        >
-         Submit
-        </button>
-          </div>
-          </div>
-        )
-      }
-        
+        )}
       </div>
     </div>
   );
