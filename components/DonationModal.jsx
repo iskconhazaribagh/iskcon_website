@@ -209,13 +209,15 @@ function DonationModal({ isOpen, onClose, amt }) {
               onChange={handleChange}
             >
               <option value="">Select Amount</option>
-              <option value="101">₹101</option>
-              <option value="251">₹251</option>
-              <option value="501">₹501</option>
-              <option value="1001">₹1001</option>
-              <option value="2001">₹2001</option>
-              <option value="5001">₹5001</option>
-              <option value="custom">Other Amount</option>
+              <option value="101"> Sudama Seva - ₹101</option>
+              <option value="251">Prabhupada Seva - ₹251</option>
+              <option value="501">Sudarshan Seva - ₹501</option>
+              <option value="1001">Balaram Seva - ₹1001</option>
+              <option value="2001">Subhadra Seva - ₹2001</option>
+              <option value="5001">
+                Sri Jagannath Mahaprabhu Seva - ₹5001
+              </option>
+              <option value="custom">Other Seva - Custom Amount</option>
             </select>
             {formData.amount === "custom" && (
               <input
@@ -251,6 +253,6 @@ function DonationModal({ isOpen, onClose, amt }) {
       </div>
     </div>
   );
-} 
+}
 
 export default DonationModal;
