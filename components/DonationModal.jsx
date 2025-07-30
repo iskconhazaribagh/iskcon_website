@@ -214,9 +214,7 @@ function DonationModal({ isOpen, onClose, amt }) {
               <option value="501">Sudarshan Seva - ₹501</option>
               <option value="1001">Balaram Seva - ₹1001</option>
               <option value="2001">Subhadra Seva - ₹2001</option>
-              <option value="5001">
-                Sri Jagannath Mahaprabhu Seva - ₹5001
-              </option>
+              <option value="5001">Sri Jagannath Mahaprabhu Seva - ₹5001</option>
               <option value="custom">Other Seva - Custom Amount</option>
             </select>
             {formData.amount === "custom" && (
