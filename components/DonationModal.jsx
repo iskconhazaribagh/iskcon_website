@@ -203,29 +203,103 @@ function DonationModal({ isOpen, onClose, amt }) {
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
-            <select
-              name="amount"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
-            >
-              <option value="">Select Amount</option>
-              <option value="101"> Sudama Seva - ₹101</option>
-              <option value="251">Prabhupada Seva - ₹251</option>
-              <option value="501">Sudarshan Seva - ₹501</option>
-              <option value="1001">Balaram Seva - ₹1001</option>
-              <option value="2001">Subhadra Seva - ₹2001</option>
-              <option value="5001">Sri Jagannath Mahaprabhu Seva - ₹5001</option>
-              <option value="custom">Other Seva - Custom Amount</option>
-            </select>
-            {formData.amount === "custom" && (
-              <input
-                type="number"
-                name="customAmount"
-                placeholder="Enter custom amount"
-                className="p-2 w-full rounded-[8px] text-black"
-                onChange={handleChange}
-              />
-            )}
+
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                {
+                  label: "Sudama Seva",
+                  value: "101",
+                  bg: "bg-gradient-to-r from-yellow-200 to-orange-300 text-black",
+                  img: "/icons/sudama.png",
+                },
+                {
+                  label: "Prabhupada Seva",
+                  value: "251",
+                  bg: "bg-gradient-to-r from-amber-300 to-orange-500 text-black",
+                  img: "/icons/prabhupada.png",
+                },
+                {
+                  label: "Sudarshan Seva",
+                  value: "501",
+                  bg: "bg-gradient-to-r from-cyan-500 to-blue-700",
+                  img: "/icons/sudarshan.png",
+                },
+                {
+                  label: "Balaram Seva",
+                  value: "1001",
+                  bg: "bg-gradient-to-r from-gray-100 to-gray-300 text-orange-700",
+                  img: "/icons/balaram.png",
+                },
+                {
+                  label: "Subhadra Seva",
+                  value: "2001",
+                  bg: "bg-gradient-to-r from-yellow-400 to-yellow-500 text-black",
+                  img: "/icons/subhadra.png",
+                },
+                {
+                  label: "Sri Jagannath Mahaprabhu Seva",
+                  value: "5001",
+                  bg: "bg-gradient-to-r from-zinc-800 to-zinc-900 text-white",
+                  img: "/icons/jagannath.png",
+                },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      amount: option.value,
+                      customAmount: "",
+                    }))
+                  }
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium shadow-lg border-2 border-white hover:scale-[1.02] transition ${
+                    formData.amount === option.value ? "ring-4 ring-white" : ""
+                  } ${option.bg}`}
+                >
+                  <Image
+                    src={option.img}
+                    alt={option.label}
+                    width={30}
+                    height={30}
+                  />
+                  <span className="text-sm sm:text-base">
+                    {option.label} - ₹{option.value}
+                  </span>
+                </button>
+              ))}
+
+              {/* Other Seva box */}
+              <div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center w-full mt-2">  
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      amount: "custom",
+                    }))
+                  }
+                  className={`px-6 py-3 rounded-xl border-2 font-medium shadow-md transition ${
+                    formData.amount === "custom"
+                      ? "bg-white text-orange-600 border-white ring-2 ring-white"
+                      : "border-white text-black hover:bg-white hover:text-orange-600"
+                  }`}
+                >
+                  Other Seva – Enter Custom Donation
+                </button>
+
+                {formData.amount === "custom" && (
+                  <input
+                    type="number"
+                    name="customAmount"
+                    placeholder="Amount (₹)"
+                    className="mt-3 p-3 w-36 rounded-md text-black shadow-inner border border-gray-300 text-center"
+                    onChange={handleChange}
+                    value={formData.customAmount}
+                  />
+                )}
+              </div>
+            </div>
 
             <button
               className="w-full p-4 text-orange-600 font-semibold text-xl bg-white rounded-[40px]"
