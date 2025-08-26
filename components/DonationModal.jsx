@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { HelpCircle } from "lucide-react"; // ✅ for tooltip
 import axios from "axios";
 import Image from "next/image";
 
@@ -16,10 +17,12 @@ function DonationModal({ isOpen, onClose, amt }) {
     pan: "",
     amount: "",
     customAmount: "",
+    startDate: new Date().toISOString().split("T")[0], // default today's date
   });
 
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
 
   const PLAN_IDS = {
     101: "plan_QyQC5lyxzzlE11",
@@ -28,6 +31,15 @@ function DonationModal({ isOpen, onClose, amt }) {
     1001: "plan_QyQCNf4APXGov1",
     2001: "plan_QyQCVmLg7mqnsX",
     5001: "plan_QyQCf4sFHldB5T",
+  };
+
+  const SEVA_NAMES = {
+    101: "Sudama Seva",
+    251: "Prabhupada Seva",
+    501: "Sudarshan Seva",
+    1001: "Balaram Seva",
+    2001: "Subhadra Seva",
+    5001: "Jagannath Seva",
   };
 
   useEffect(() => {
@@ -89,29 +101,23 @@ function DonationModal({ isOpen, onClose, amt }) {
   };
 
   const createSubscription = async (planId) => {
-    console.log("Calling createSubscription with:", {
-      plan_id: planId,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      amount:
-        formData.amount === "custom" ? formData.customAmount : formData.amount,
-      address: formData.address,
-      pincode: formData.pincode,
-      pan: formData.pan,
-      city,
-      state,
-    });
+    const finalAmount =
+      formData.amount === "custom" ? formData.customAmount : formData.amount;
+
+    const sevaName =
+      formData.amount === "custom"
+        ? `Other Seva (₹${finalAmount})`
+        : SEVA_NAMES[finalAmount] || "Seva";
+
     try {
       const res = await axios.post("/api/createRazorpaySubscription", {
         plan_id: planId,
         ...formData,
-        amount:
-          formData.amount === "custom"
-            ? formData.customAmount
-            : formData.amount,
+        amount: finalAmount,
         city,
         state,
+        start_at: Math.floor(new Date(formData.startDate).getTime() / 1000),
+        description: `Monthly Donation - ${sevaName}`,
       });
 
       const { subscription_id, razorpay_key } = res.data;
@@ -120,7 +126,7 @@ function DonationModal({ isOpen, onClose, amt }) {
         key: razorpay_key,
         subscription_id,
         name: "ISKCON Hazaribagh",
-        description: "Monthly Donation",
+        description: `Monthly Donation - ${sevaName}`,
         handler: function (response) {
           alert("Subscription successful! ID: " + response.razorpay_payment_id);
         },
@@ -156,11 +162,15 @@ function DonationModal({ isOpen, onClose, amt }) {
           <h1 className="font-semibold text-xl md:text-2xl">
             {amt === "rec" ? "Monthly Donation Details" : "One Time Donation"}
           </h1>
-          <RxCross2 className="text-white text-2xl" onClick={onClose} />
+          <RxCross2
+            className="text-white text-2xl cursor-pointer"
+            onClick={onClose}
+          />
         </div>
 
         {amt === "rec" ? (
-          <div className="flex flex-col gap-4 items-start justify-start w-full">
+          <div className="flex flex-col gap-2 items-start justify-start w-full">
+            {/* Inputs */}
             <input
               type="text"
               name="name"
@@ -189,22 +199,89 @@ function DonationModal({ isOpen, onClose, amt }) {
               className="p-2 w-full rounded-[8px] text-black"
               onChange={handleChange}
             />
+
+            {/* Pincode */}
             <input
               type="text"
               name="pincode"
-              placeholder="PIN Code"
-              className="p-2 w-full rounded-[8px] text-black"
-              onChange={handleChange}
+              placeholder="Pincode"
+              className="p-2 w-full rounded-md border border-gray-300 text-black"
+              onChange={async (e) => {
+                const value = e.target.value;
+                setFormData((prev) => ({ ...prev, pincode: value }));
+                if (value.length === 6) {
+                  try {
+                    const res = await fetch(
+                      `https://api.postalpincode.in/pincode/${value}`
+                    );
+                    const data = await res.json();
+                    if (data[0].Status === "Success") {
+                      const postOffice = data[0].PostOffice[0];
+                      setFormData((prev) => ({
+                        ...prev,
+                        city: postOffice.District,
+                        state: postOffice.State,
+                      }));
+                    }
+                  } catch (err) {
+                    console.error("PIN lookup failed", err);
+                  }
+                } else if (value === "") {
+                  setFormData((prev) => ({ ...prev, city: "", state: "" }));
+                }
+              }}
+              value={formData.pincode}
             />
+
+            {/* Compact City + State */}
+            <div className="h-4 flex items-center text-xs text-gray-600">
+              {formData.city && formData.state && (
+                <span className="flex items-center">
+                  📍 {formData.city}, {formData.state}
+                </span>
+              )}
+            </div>
+
+            {/* PAN (separate line) */}
             <input
               type="text"
               name="pan"
-              placeholder="PAN Number [Optional]"
-              className="p-2 w-full rounded-[8px] text-black"
+              placeholder="PAN (optional)"
+              className="p-2 w-full rounded-md border border-gray-300 text-black"
+              value={formData.pan}
               onChange={handleChange}
             />
 
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Start Date with Tooltip */}
+            <div className="flex items-center space-x-2 w-full justify-center relative">
+              <label
+                htmlFor="startDate"
+                className="text-sm font-medium text-gray-700"
+              >
+                Start Date:
+              </label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                className="p-1 w-28 text-sm rounded-md border border-gray-300 text-center text-black"
+                value={formData.startDate}
+                onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
+              />
+              <HelpCircle
+                className="w-4 h-4 text-white cursor-pointer"
+                onClick={() => setShowInfo(!showInfo)}
+              />
+              {showInfo && (
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-white text-gray-700 text-xs rounded-md shadow-md px-3 py-2 w-60 z-10">
+                  Every month on this date your donation will be deducted.
+                </div>
+              )}
+            </div>
+
+            {/* Seva Options */}
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-1">
               {[
                 {
                   label: "Sudama Seva",
@@ -237,7 +314,7 @@ function DonationModal({ isOpen, onClose, amt }) {
                   img: "/icons/subhadra.png",
                 },
                 {
-                  label: "Sri Jagannath Mahaprabhu Seva",
+                  label: "Jagannath Seva",
                   value: "5001",
                   bg: "bg-gradient-to-r from-zinc-800 to-zinc-900 text-white",
                   img: "/icons/jagannath.png",
@@ -253,39 +330,38 @@ function DonationModal({ isOpen, onClose, amt }) {
                       customAmount: "",
                     }))
                   }
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium shadow-lg border-2 border-white hover:scale-[1.02] transition ${
-                    formData.amount === option.value ? "ring-4 ring-white" : ""
+                  className={`w-full flex items-center gap-2 px-2 py-1 rounded-md font-medium shadow border border-white hover:scale-[1.01] transition text-xs sm:text-sm
+                  ${
+                    formData.amount === option.value ? "ring-2 ring-white" : ""
                   } ${option.bg}`}
                 >
                   <Image
                     src={option.img}
                     alt={option.label}
-                    width={30}
-                    height={30}
+                    width={18}
+                    height={18}
                   />
-                  <span className="text-sm sm:text-base">
-                    {option.label} - ₹{option.value}
+                  <span className="truncate">
+                    {option.label} – ₹{option.value}
                   </span>
                 </button>
               ))}
 
-              {/* Other Seva box */}
-              <div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center w-full mt-2">  
+              {/* Other Seva */}
+              <div className="col-span-1 sm:col-span-2 flex flex-col items-center justify-center w-full mt-1">
                 <button
                   type="button"
                   onClick={() =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      amount: "custom",
-                    }))
+                    setFormData((prev) => ({ ...prev, amount: "custom" }))
                   }
-                  className={`px-6 py-3 rounded-xl border-2 font-medium shadow-md transition ${
+                  className={`px-2 py-1 text-xs sm:text-sm rounded-lg border font-medium shadow-sm transition
+                  ${
                     formData.amount === "custom"
-                      ? "bg-white text-orange-600 border-white ring-2 ring-white"
+                      ? "bg-white text-orange-600 border-white ring-1 ring-white"
                       : "border-white text-black hover:bg-white hover:text-orange-600"
                   }`}
                 >
-                  Other Seva – Enter Custom Donation
+                  Other Seva – Custom Amount
                 </button>
 
                 {formData.amount === "custom" && (
@@ -293,20 +369,20 @@ function DonationModal({ isOpen, onClose, amt }) {
                     type="number"
                     name="customAmount"
                     placeholder="Amount (₹)"
-                    className="mt-3 p-3 w-36 rounded-md text-black shadow-inner border border-gray-300 text-center"
+                    className="mt-1 p-1 w-20 rounded-md text-xs text-black shadow-inner border border-gray-300 text-center"
                     onChange={handleChange}
                     value={formData.customAmount}
                   />
                 )}
               </div>
             </div>
+<button
+  className="w-full flex items-center justify-center gap-1 px-3 py-2 text-sm text-white font-medium bg-gradient-to-r from-green-500 to-blue-500 rounded-full shadow-md hover:scale-105 transition-transform duration-200"
+  onClick={handleSubmit}
+>
+  💳 Donate Monthly 💳
+</button>
 
-            <button
-              className="w-full p-4 text-orange-600 font-semibold text-xl bg-white rounded-[40px]"
-              onClick={handleSubmit}
-            >
-              Proceed to Donate Monthly
-            </button>
           </div>
         ) : (
           <div className="w-full">

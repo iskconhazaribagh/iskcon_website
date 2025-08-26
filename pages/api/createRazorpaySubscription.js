@@ -23,9 +23,10 @@ export default async function handler(req, res) {
     pan,
     city,
     state,
+    startDate, // coming as "YYYY-MM-DD" from frontend
   } = req.body;
 
-  console.log("➡️ Received in API:", req.body);
+  console.log("➡️ [API] Received in API:", req.body);
 
   if (!plan_id || !name || !email || !phone || !amount) {
     console.log("❌ Missing required fields");
@@ -33,10 +34,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const subscription = await razorpay.subscriptions.create({
+    // convert startDate -> epoch seconds at midnight
+    let start_at;
+    if (startDate) {
+      start_at = Math.floor(new Date(startDate + "T00:00:00").getTime() / 1000);
+    }
+
+    const payload = {
       plan_id,
       total_count: 240,
       customer_notify: 1,
+      start_at,
       notes: {
         name,
         email,
@@ -48,9 +56,13 @@ export default async function handler(req, res) {
         city,
         state,
       },
-    });
+    };
 
-    console.log("✅ Subscription created:", subscription);
+    console.log("📦 [API] Final payload to Razorpay:", payload);
+
+    const subscription = await razorpay.subscriptions.create(payload);
+
+    console.log("✅ [API] Subscription created:", subscription);
 
     return res.status(200).json({
       subscription_id: subscription.id,
@@ -64,4 +76,3 @@ export default async function handler(req, res) {
     });
   }
 }
-

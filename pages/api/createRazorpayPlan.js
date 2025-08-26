@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         name: `Monthly Donation - ₹${amount}`,
         amount: parseInt(amount) * 100,
         currency: "INR",
-        description: "Description for the test plan"
+        description: "Other Seva [ISKCON Hazaribagh]"
       },
     });
 
@@ -27,4 +27,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Plan creation failed" });
   }
 }
-
