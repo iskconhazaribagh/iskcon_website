@@ -15,11 +15,13 @@ function Navbar() {
 
   return (
     <>
-      {/* Desktop */}
+      {/* Desktop Navbar */}
       <div className='bg-orange-custom hidden md:flex md:flex-row justify-between p-5 items-center w-full'>
         <div className='flex flex-row gap-8 items-center justify-start'>
           <Image src="/assets/orange_iskon.png" alt="logo" width={70} height={90} />
-          <h1 className={`text-orange-600 font-semibold text-2xl ${tinr.className}`}>ISKCON HAZARIBAGH</h1>
+          <h1 className={`text-orange-600 font-semibold text-2xl ${tinr.className}`}>
+            ISKCON HAZARIBAGH
+          </h1>
         </div>
 
         <div className='flex items-center justify-start gap-10 mr-6'>
@@ -35,10 +37,13 @@ function Navbar() {
           <Link href="/festivals">
             <p className={`font-semibold ${isActive('/festivals') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Festivals & Yatras</p>
           </Link>
+          <Link href="/contactUs">
+            <p className={`font-semibold ${isActive('/contactUs') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-600'}`}>Contact Us</p>
+          </Link>
         </div>
       </div>
 
-      {/* Mobile */}
+      {/* Mobile Navbar */}
       <div className='fixed top-0 left-0 w-full p-3 flex flex-row md:hidden items-center justify-start bg-orange-custom z-30'>
         {isOpen ? (
           <ImCross onClick={() => setIsOpen(!isOpen)} className='text-xl text-orange-600 cursor-pointer' />
@@ -51,7 +56,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Overlay Menu */}
+      {/* Mobile Overlay Menu */}
       {isOpen && (
         <div className='fixed top-0 left-0 w-full h-80 bg-orange-custom bg-opacity-90 z-40 flex flex-col md:hidden items-center justify-center'>
           <div className="flex flex-col gap-6 items-center">
@@ -66,6 +71,9 @@ function Navbar() {
             </Link>
             <Link href="/festivals" onClick={() => setIsOpen(false)}>
               <p className='text-orange-600 font-semibold text-lg'>Festivals and Yatras</p>
+            </Link>
+            <Link href="/contactUs" onClick={() => setIsOpen(false)}>
+              <p className='text-orange-600 font-semibold text-lg'>Contact Us</p>
             </Link>
           </div>
         </div>
