@@ -37,7 +37,15 @@ export default async function handler(req, res) {
     // convert startDate -> epoch seconds at midnight
     let start_at;
     if (startDate) {
-      start_at = Math.floor(new Date(startDate + "T00:00:00").getTime() / 1000);
+      const selectedDate = new Date(startDate + "T00:00:00");
+      const now = new Date();
+
+      // If selected date is today or in the past, set start_at a minute ahead to avoid Razorpay error
+      if (selectedDate <= now) {
+        start_at = Math.floor(now.getTime() / 1000) + 120; // 120 seconds ahead
+      } else {
+        start_at = Math.floor(selectedDate.getTime() / 1000);
+      }
     }
 
     const payload = {

@@ -109,6 +109,19 @@ function DonationModal({ isOpen, onClose, amt }) {
         ? `Other Seva (₹${finalAmount})`
         : SEVA_NAMES[finalAmount] || "Seva";
 
+    let startAtTimestamp;
+
+    const selectedDate = new Date(formData.startDate);
+    const now = new Date();
+
+    if (selectedDate.toDateString() === now.toDateString()) {
+      // If start date is today, set it a few seconds ahead of current time
+      startAtTimestamp = Math.floor(Date.now() / 1000) + 120; // 120 seconds in future
+    } else {
+      // For future dates, use midnight of that date
+      startAtTimestamp = Math.floor(selectedDate.getTime() / 1000);
+    }
+
     try {
       const res = await axios.post("/api/createRazorpaySubscription", {
         plan_id: planId,
@@ -116,7 +129,7 @@ function DonationModal({ isOpen, onClose, amt }) {
         amount: finalAmount,
         city,
         state,
-        start_at: Math.floor(new Date(formData.startDate).getTime() / 1000),
+        start_at: startAtTimestamp,
         description: `Monthly Donation - ${sevaName}`,
       });
 
@@ -376,13 +389,12 @@ function DonationModal({ isOpen, onClose, amt }) {
                 )}
               </div>
             </div>
-<button
-  className="w-full flex items-center justify-center gap-1 px-3 py-2 text-sm text-white font-medium bg-gradient-to-r from-green-500 to-blue-500 rounded-full shadow-md hover:scale-105 transition-transform duration-200"
-  onClick={handleSubmit}
->
-  💳 Donate Monthly 💳
-</button>
-
+            <button
+              className="w-full flex items-center justify-center gap-1 px-3 py-2 text-sm text-white font-medium bg-gradient-to-r from-green-500 to-blue-500 rounded-full shadow-md hover:scale-105 transition-transform duration-200"
+              onClick={handleSubmit}
+            >
+              💳 Donate Monthly 💳
+            </button>
           </div>
         ) : (
           <div className="w-full">
